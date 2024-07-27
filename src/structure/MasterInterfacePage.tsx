@@ -5,7 +5,7 @@ import { lazy, Suspense, useState, useEffect, useContext } from 'react';
 import useToast from 'hooks/useToast';
 import { MdWarning } from 'react-icons/md';
 import { VscClose } from 'react-icons/vsc';
-import { Navigate, Route, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import styled from 'styled-components';
@@ -19,6 +19,8 @@ import LoaderSpinner, {
 import { Anchor, Item } from '../primaries/SharedStyling';
 const AirdropPage = lazy(() => import('pages/AirdropPage'));
 const ChannelDashboardPage = lazy(() => import('pages/ChannelDashboardPage'));
+const ChannelDashboardPageV2 = lazy(() => import('pages/ChannelDashboardPageV2'));
+const CreateChannelpage = lazy(() => import('pages/CreateChannelpage'));
 const ChannelsPage = lazy(() => import('pages/ChannelsPage'));
 const ChatPage = lazy(() => import('pages/ChatPage'));
 const ComingSoonPage = lazy(() => import('pages/ComingSoonPage'));
@@ -42,7 +44,11 @@ const ClaimGalxePage = lazy(() => import('pages/ClaimGalxePage'));
 const WelcomDashboardPage = lazy(() => import('pages/WelcomeDashboardPage'));
 const RewardPointsPage = lazy(() => import('pages/RewardPointsPage'));
 const PointsVaultPage = lazy(() => import('pages/PointsVaultPage'));
+const AddNewChainPage = lazy(() => import('pages/AddNewChain'));
+
 const DiscordVerificationPage = lazy(() => import('pages/DiscordVerificationPage'));
+
+const SendNotificationPage = lazy(() => import('pages/SendNotificationPage'));
 // import AirdropPage from 'pages/AirdropPage';
 // import ChannelDashboardPage from 'pages/ChannelDashboardPage';
 // import ChannelsPage from 'pages/ChannelsPage';
@@ -79,7 +85,7 @@ const rewardsPointsPagePaths = [APP_PATHS.Rewards, APP_PATHS.RewardsActivities, 
 function MasterInterfacePage() {
   // Get search params
   const [searchParams] = useSearchParams();
-
+  const params = useParams();
   // get location
   const location = useLocation();
 
@@ -126,6 +132,7 @@ function MasterInterfacePage() {
   // }, []);
 
   const ChannelsProfilePage = () => {
+
     const channelid = searchParams.get('channel');
 
     if (channelid) {
@@ -159,6 +166,10 @@ function MasterInterfacePage() {
           }
         >
           <Routes>
+            <Route
+              path={APP_PATHS.AddNewChain}
+              element={<AddNewChainPage />}
+            />
             <Route
               path={APP_PATHS.WelcomeDashboard}
               element={<WelcomDashboardPage />}
@@ -228,13 +239,25 @@ function MasterInterfacePage() {
               element={<ChannelsProfilePage />}
             />
 
+            {/* Dep channel dashboard page */}
             <Route
               path={APP_PATHS.Dashboard}
               element={<ChannelDashboardPage />}
             />
+
+            <Route
+              path={APP_PATHS.CreateChannel}
+              element={<CreateChannelpage />}
+            />
+
+            <Route
+              path={`${APP_PATHS.ChannelDashboard}/:channelId`}
+              element={<ChannelDashboardPageV2 />}
+            />
+
             <Route
               path={APP_PATHS.Send}
-              element={<SendNotifsPage />}
+              element={<SendNotificationPage />}
             />
             <Route
               path={APP_PATHS.Receive}

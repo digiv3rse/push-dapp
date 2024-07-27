@@ -9,7 +9,13 @@ export { default as CommunicationDark } from './components/CommunicationDark';
 
 export { default as Discord } from './components/Discord';
 
+export { default as Arbitrum } from './components/Arbitrum';
+export { default as BNB } from './components/BNB';
+export { default as Cyber } from './components/Cyber';
 export { default as Ethereum } from './components/Ethereum';
+export { default as Fuse } from './components/Fuse';
+export { default as Optimism } from './components/Optimism';
+export { default as Polygon } from './components/Polygon';
 
 export { default as PushAlpha } from './components/PushAlpha';
 
@@ -32,3 +38,5 @@ export { default as Twitter } from './components/Twitter';
 export { default as RewardsActivity } from './components/RewardsActivity';
 
 export { default as PushLogo } from './components/PushLogo';
+
+export { default as PolygonZK } from './components/PolygonZK';
