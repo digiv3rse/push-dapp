@@ -15,9 +15,13 @@ type CreateChannelFaucetProps = {
   mintPushToken: (noOfTokens: number) => void;
   noOfPushTokensToCheck: number;
   mintingPush: boolean;
-};
+}
 
-const CreateChannelFaucet: FC<CreateChannelFaucetProps> = ({ mintPushToken, noOfPushTokensToCheck, mintingPush }) => {
+const CreateChannelFaucet: FC<CreateChannelFaucetProps> = ({
+  mintPushToken,
+  noOfPushTokensToCheck,
+  mintingPush
+}) => {
   const isProd = appConfig.appEnv === 'prod';
 
   const {

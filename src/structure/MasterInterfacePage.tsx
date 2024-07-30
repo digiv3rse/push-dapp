@@ -19,6 +19,8 @@ import LoaderSpinner, {
 import { Anchor, Item } from '../primaries/SharedStyling';
 const AirdropPage = lazy(() => import('pages/AirdropPage'));
 const ChannelDashboardPage = lazy(() => import('pages/ChannelDashboardPage'));
+const ChannelDashboardPageV2 = lazy(() => import('pages/ChannelDashboardPageV2'));
+const CreateChannelpage = lazy(() => import('pages/CreateChannelpage'));
 const ChannelsPage = lazy(() => import('pages/ChannelsPage'));
 const ChatPage = lazy(() => import('pages/ChatPage'));
 const ComingSoonPage = lazy(() => import('pages/ComingSoonPage'));
@@ -83,7 +85,6 @@ const rewardsPointsPagePaths = [APP_PATHS.Rewards, APP_PATHS.RewardsActivities, 
 function MasterInterfacePage() {
   // Get search params
   const [searchParams] = useSearchParams();
-
   // get location
   const location = useLocation();
 
@@ -130,6 +131,7 @@ function MasterInterfacePage() {
   // }, []);
 
   const ChannelsProfilePage = () => {
+
     const channelid = searchParams.get('channel');
 
     if (channelid) {
@@ -236,10 +238,22 @@ function MasterInterfacePage() {
               element={<ChannelsProfilePage />}
             />
 
+            {/* Dep channel dashboard page */}
             <Route
               path={APP_PATHS.Dashboard}
               element={<ChannelDashboardPage />}
             />
+
+            <Route
+              path={APP_PATHS.CreateChannel}
+              element={<CreateChannelpage />}
+            />
+
+            <Route
+              path={`${APP_PATHS.ChannelDashboard}/:channelId`}
+              element={<ChannelDashboardPageV2 />}
+            />
+
             <Route
               path={APP_PATHS.Send}
               element={<SendNotificationPage />}

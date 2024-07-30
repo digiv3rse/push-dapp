@@ -1,4 +1,5 @@
 import { PushAPI } from '@pushprotocol/restapi';
+import { ethers } from 'ethers';
 import { SourceKeys } from 'modules/dashboard/Dashboard.types';
 
 export type TrendingChannelsParams = {
@@ -87,10 +88,49 @@ export type ChannelDetails = {
   aliases: Array<Alias>;
 };
 
-export type InitiateVerifyAliasChainResponse = {
-  tx: string;
+export type ChannelDelegatesResponse = Array<string>;
+
+export type RemoveChannelDelegateResponse = {
+  transactionHash: string;
 };
 
-export type InitiateVerifyAliasChainResponse = {
-  tx: string;
+export type addChannelDelegateParams = {
+  userPushSDKInstance: PushAPI;
+  delegateAddress: string; //chain address in caip format
+};
+
+export type addChannelSubgraphParams = {
+  identityBytes: string;
+  signer: ethers.providers.JsonRpcSigner;
+};
+
+export type reactivateChannelParams = {
+  fees: ethers.BigNumber;
+  signer: ethers.providers.JsonRpcSigner;
+};
+
+export type deactivateChannelParams = {
+  signer: ethers.providers.JsonRpcSigner;
+};
+
+export type GetChannelDelegatesParams = {
+  userPushSDKInstance: PushAPI;
+};
+
+export type RemoveChannelDelegateParams = {
+  userPushSDKInstance: PushAPI;
+  delegateAddress: string; //chain address in caip format
+};
+
+export type AddChannelDelegateResponse = {
+  transactionHash: string;
+};
+
+export type ApprovePUSHTokenPayload = {
+  noOfTokenToApprove: ethers.BigNumber;
+  signer: ethers.providers.JsonRpcSigner;
+};
+
+export type editChannelDetailsResponse = {
+  transactionHash: string;
 };

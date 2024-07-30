@@ -4,16 +4,10 @@ import { useEffect, useState, useContext } from 'react';
 // External Packages
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components';
-import { MdError } from 'react-icons/md';
 
 // Internal Compoonents
-import AliasProcessing from 'components/AliasProcessing';
-import ChannelDetails from 'components/ChannelDetails';
 import ChannelLoading from 'components/ChannelLoading';
-import ChannelSettings from 'components/ChannelSettings';
-import CreateChannelModule from '../createChannel/CreateChannelModule';
 import { ItemHV2, ItemVV2 } from 'components/reusables/SharedStylingV2';
-import { Button } from 'blocks';
 import { getAliasFromChannelDetails } from 'helpers/UtilityHelper';
 import { useAccount, useDeviceWidthCheck } from 'hooks';
 import {
@@ -21,7 +15,6 @@ import {
   setAliasAddressFromContract,
   setAliasChainId,
   setAliasVerified,
-  setUserChannelDetails,
 } from 'redux/slices/adminSlice';
 import { setProcessingState } from 'redux/slices/channelCreationSlice';
 import ChannelsDataStore from 'singletons/ChannelsDataStore';
@@ -29,9 +22,8 @@ import useToast from 'hooks/useToast';
 
 // Internal Configs
 import { appConfig } from 'config/index.js';
-import EditChannel from 'modules/editChannel/EditChannel';
-import useModalBlur from 'hooks/useModalBlur';
 import { AppContext } from 'contexts/AppContext';
+import { ChannelDashboard } from './ChannelDashboard';
 import { CreateChannel } from 'modules/createChannel';
 import GLOBALS, { device, globalsMargin } from 'config/Globals';
 
@@ -122,77 +114,78 @@ const ChannelOwnerDashboard = () => {
     clearInterval(intervalID);
   }
 
-  const destroyChannel = async () => {
-    try {
-      destroyChannelToast.showLoaderToast({ loaderMessage: 'Waiting for Confirmation...' });
-      const tx = await epnsWriteProvider.destroyTimeBoundChannel(account, {
-        gasLimit: 1000000,
-      });
+  //? This is used only for Timebound Channel
+  // const destroyChannel = async () => {
+  //   try {
+  //     destroyChannelToast.showLoaderToast({ loaderMessage: 'Waiting for Confirmation...' });
+  //     const tx = await epnsWriteProvider.destroyTimeBoundChannel(account, {
+  //       gasLimit: 1000000,
+  //     });
 
-      console.debug(tx);
-      console.debug('Check: ' + account);
-      await tx.wait();
-      destroyChannelToast.showMessageToast({
-        toastTitle: 'Success',
-        toastMessage: `Successfully deleted the channel`,
-        toastType: 'SUCCESS',
-        getToastIcon: (size) => (
-          <MdError
-            size={size}
-            color="green"
-          />
-        ),
-      });
-      dispatch(setUserChannelDetails(null));
-    } catch (err) {
-      console.error(err);
-      if (err.code == 'ACTION_REJECTED') {
-        // EIP-1193 userRejectedRequest error
-        destroyChannelToast.showMessageToast({
-          toastTitle: 'Error',
-          toastMessage: `User denied message signature.`,
-          toastType: 'ERROR',
-          getToastIcon: (size) => (
-            <MdError
-              size={size}
-              color="red"
-            />
-          ),
-        });
-      } else {
-        destroyChannelToast.showMessageToast({
-          toastTitle: 'Error',
-          toastMessage: `There was an error in deleting the channel`,
-          toastType: 'ERROR',
-          getToastIcon: (size) => (
-            <MdError
-              size={size}
-              color="red"
-            />
-          ),
-        });
-      }
-    }
-  };
+  //     console.debug(tx);
+  //     console.debug('Check: ' + account);
+  //     await tx.wait();
+  //     destroyChannelToast.showMessageToast({
+  //       toastTitle: 'Success',
+  //       toastMessage: `Successfully deleted the channel`,
+  //       toastType: 'SUCCESS',
+  //       getToastIcon: (size) => (
+  //         <MdError
+  //           size={size}
+  //           color="green"
+  //         />
+  //       ),
+  //     });
+  //     dispatch(setUserChannelDetails(null));
+  //   } catch (err) {
+  //     console.error(err);
+  //     if (err.code == 'ACTION_REJECTED') {
+  //       // EIP-1193 userRejectedRequest error
+  //       destroyChannelToast.showMessageToast({
+  //         toastTitle: 'Error',
+  //         toastMessage: `User denied message signature.`,
+  //         toastType: 'ERROR',
+  //         getToastIcon: (size) => (
+  //           <MdError
+  //             size={size}
+  //             color="red"
+  //           />
+  //         ),
+  //       });
+  //     } else {
+  //       destroyChannelToast.showMessageToast({
+  //         toastTitle: 'Error',
+  //         toastMessage: `There was an error in deleting the channel`,
+  //         toastType: 'ERROR',
+  //         getToastIcon: (size) => (
+  //           <MdError
+  //             size={size}
+  //             color="red"
+  //           />
+  //         ),
+  //       });
+  //     }
+  //   }
+  // };
 
-  const showEditChannel = () => {
-    // if (!userPushSDKInstance.signer) {
-    //   handleConnectWalletAndEnableProfile({wallet});
-    //   return;
-    // }
-    setEditChannel(true);
-  };
+  // const showEditChannel = () => {
+  //   // if (!userPushSDKInstance.signer) {
+  //   //   handleConnectWallet();
+  //   //   return;
+  //   // }
+  //   setEditChannel(true);
+  // };
 
-  const closeEditChannel = () => {
-    setEditChannel(false);
-  };
+  // const closeEditChannel = () => {
+  //   setEditChannel(false);
+  // };
 
   //here the useModal hook is used to display Upload Logo Modal
-  const {
-    isModalOpen: isUploadLogoModalOpen,
-    showModal: displayUplaodLogoModal,
-    ModalComponent: UploadLogoComponent,
-  } = useModalBlur();
+  // const {
+  //   isModalOpen: isUploadLogoModalOpen,
+  //   showModal: displayUplaodLogoModal,
+  //   ModalComponent: UploadLogoComponent,
+  // } = useModalBlur();
 
   return (
     <ItemHV2>
@@ -207,6 +200,9 @@ const ChannelOwnerDashboard = () => {
           {/* {!channelDetails && processingState === 0 && <CreateChannelModule />} */}
           {!channelDetails && processingState === 0 && <CreateChannel />}
 
+          {channelDetails && <ChannelDashboard />}
+
+          {/* 
           {isChannelDetails && processingState !== null && (
             <Container>
               {editChannel ? (
@@ -245,32 +241,35 @@ const ChannelOwnerDashboard = () => {
                     </ItemHV2>
                   )}
                   {channelDetails ? (
-                    <ChannelDetails
-                      isChannelExpired={isChannelExpired}
-                      setIsChannelExpired={setIsChannelExpired}
-                      showEditChannel={showEditChannel}
-                      destroyChannel={destroyChannel}
-                    />
+                    <ChannelDashboard />
+
+                    // <ChannelDetails
+                    //   isChannelExpired={isChannelExpired}
+                    //   setIsChannelExpired={setIsChannelExpired}
+                    //   showEditChannel={showEditChannel}
+                    //   destroyChannel={destroyChannel}
+                    // />
                   ) : (
                     ''
                   )}
                 </>
               )}
-            </Container>
-          )}
+            </>
+          )} */}
 
           {/* processing box */}
-          {processingState !== 0 && processingState !== null && isChannelDetails && !editChannel && (
+          {/* {processingState !== 0 && processingState !== null && isChannelDetails && !editChannel && (
             <>
               <AliasProcessing
                 aliasEthAccount={aliasEthAddr}
                 setAliasVerified={setAliasVerified}
               />
             </>
-          )}
+          )} */}
         </ItemVV2>
-      )}
-    </ItemHV2>
+      )
+      }
+    </ItemHV2 >
   );
 };
 
@@ -294,7 +293,7 @@ const Container = styled(ItemVV2)`
   padding: ${GLOBALS.ADJUSTMENTS.PADDING.DEFAULT};
   position: relative;
   margin: ${GLOBALS.ADJUSTMENTS.MARGIN.MINI_MODULES.DESKTOP};
-  <<<<<<< HEAD =======>>>>>>>60e48167be7f381c8f5afa2fbd509fe526a74b71 @media ${device.laptop} {
+  @media ${device.laptop} {
     margin: ${GLOBALS.ADJUSTMENTS.MARGIN.MINI_MODULES.TABLET};
     padding: ${GLOBALS.ADJUSTMENTS.PADDING.BIG};
     width: calc(

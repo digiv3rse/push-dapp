@@ -1,15 +1,20 @@
-import { FC } from 'react';
+import { FC } from "react";
 
-import { Box, Button, TextArea, TextInput } from 'blocks';
+import { Box, Button, TextArea, TextInput } from "blocks";
 
-import { useCreateChannelForm } from '../CreateChannel.form';
-import { ActiveStepKey } from '../CreateChannel.types';
+import { useCreateChannelForm } from "../CreateChannel.form";
+import { ActiveStepKey } from "../CreateChannel.types";
+
 
 type ChannelInfoProps = {
   setActiveStepKey: (key: ActiveStepKey) => void;
   handleNextStep: (key: ActiveStepKey) => void;
-};
-const ChannelInfo: FC<ChannelInfoProps> = ({ handleNextStep, setActiveStepKey }) => {
+}
+const ChannelInfo: FC<ChannelInfoProps> = ({
+  handleNextStep,
+  setActiveStepKey
+}) => {
+
   const {
     values: formValues,
     touched,
@@ -31,26 +36,26 @@ const ChannelInfo: FC<ChannelInfoProps> = ({ handleNextStep, setActiveStepKey })
         handleNextStep('uploadLogo');
         setActiveStepKey('uploadLogo');
       }
-    });
-  };
+    })
+  }
 
   return (
     <Box
-      display="flex"
-      flexDirection="column"
-      alignSelf="stretch"
+      display='flex'
+      flexDirection='column'
+      alignSelf='stretch'
     >
       <Box
-        display="flex"
-        flexDirection="column"
-        gap="spacing-xl"
-        alignSelf="stretch"
+        display='flex'
+        flexDirection='column'
+        gap='spacing-xl'
+        alignSelf='stretch'
       >
         <Box
-          display="flex"
-          flexDirection="column"
-          gap="spacing-sm"
-          alignSelf="stretch"
+          display='flex'
+          flexDirection='column'
+          gap='spacing-sm'
+          alignSelf='stretch'
         >
           <TextInput
             required
